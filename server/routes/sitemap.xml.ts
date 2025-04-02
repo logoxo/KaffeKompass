@@ -1,25 +1,36 @@
 // server/routes/sitemap.xml.ts
 import { SitemapStream, streamToPromise } from 'sitemap'
 import { defineEventHandler } from 'h3'
+import { useRuntimeConfig } from '#imports'
 
 export default defineEventHandler(async (event) => {
-  // Define base URL
-  const baseURL = 'https://cafefinder.de';
+  // Fetch base URL from runtime config
+  const config = useRuntimeConfig();
+  const baseURL = config.public.siteUrl || 'https://cafefinder.de';
   
   // Create sitemap stream
   const sitemap = new SitemapStream({
     hostname: baseURL
   });
   
-  // Add static pages to sitemap
-  const staticPages = [
-    { url: '/', changefreq: 'daily', priority: 1.0 },
-    { url: '/impressum', changefreq: 'monthly', priority: 0.3 },
-    { url: '/kontakt', changefreq: 'monthly', priority: 0.5 }
-  ];
+  // Add home page
+  sitemap.write({
+    url: '/',
+    changefreq: 'daily',
+    priority: 1.0
+  });
   
-  staticPages.forEach(page => {
-    sitemap.write(page);
+  // Add static pages
+  sitemap.write({
+    url: '/impressum',
+    changefreq: 'monthly',
+    priority: 0.5
+  });
+  
+  sitemap.write({
+    url: '/kontakt',
+    changefreq: 'monthly',
+    priority: 0.7
   });
   
   // Add menu items pages
@@ -28,7 +39,8 @@ export default defineEventHandler(async (event) => {
     'cappuccino',
     'latte', 
     'americano',
-    'macchiato'
+    'macchiato',
+    'example'
   ];
   
   menuItems.forEach(item => {

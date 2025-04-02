@@ -1,8 +1,10 @@
 // server/routes/robots.txt.ts
 import { defineEventHandler } from 'h3'
+import { useRuntimeConfig } from '#imports'
 
 export default defineEventHandler((event) => {
-  const siteUrl = 'https://cafefinder.de';
+  const config = useRuntimeConfig();
+  const siteUrl = config.public.siteUrl || 'https://cafefinder.de';
   
   // Create robots.txt content
   const robotsConfig = [
