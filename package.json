@@ -13,13 +13,14 @@
     "@nuxt/ui": "^2.16.0",
     "@nuxtjs/strapi": "^2.0.0",
     "@pinia/nuxt": "^0.5.1",
+    "node-fetch": "^3.3.2",
     "nuxt": "^3.11.2",
     "pinia": "^2.1.7",
+    "schema-dts": "^1.1.2",
+    "sitemap": "^7.1.1",
     "vue": "^3.4.27",
     "vue-router": "^4.3.2",
-    "web3": "^4.9.0",
-    "sitemap": "^7.1.1",
-    "schema-dts": "^1.1.2"
+    "web3": "^4.9.0"
   },
   "devDependencies": {
     "sass": "^1.77.3"
