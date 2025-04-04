@@ -5,7 +5,7 @@ export default defineNuxtConfig({
   devServer: {
     host: '0.0.0.0', // Erlaubt den Zugriff von externen Quellen
     port: 3000, // Falls dein Nuxt-Server auf Port 3000 läuft
-    allowedHosts: ["c468-2001-9e8-44dc-df00-a5da-32c6-d275-d1be.ngrok-free.app"] // Erlaubt alle Hosts, einschließlich Ngrok
+    allowedHosts: ["all"] // Erlaubt alle Hosts, einschließlich Ngrok
   },
   css: [
     // SCSS file in the project
