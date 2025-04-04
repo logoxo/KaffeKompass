@@ -12,14 +12,14 @@ export default defineNuxtConfig({
     "~/assets/scss/main.scss", // you should add main.scss somewhere in your app
   ],
   strapi: {
-    url: 'http://localhost:1337', // Replace with your Strapi URL
+    url: 'http://207.180.235.105:8000' , // Replace with your Strapi URL
     prefix: '/api',
   },
   runtimeConfig: {
     // Keys within public are also exposed client-side
     public: {
       strapi: {
-        url: process.env.STRAPI_URL || 'http://localhost:1337',
+        url: process.env.STRAPI_URL || 'http://207.180.235.105:8000',
         // ... other existing Strapi config
       },
       siteUrl: process.env.SITE_URL || 'https://cafefinder.de',
