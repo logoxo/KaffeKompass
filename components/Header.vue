@@ -29,7 +29,6 @@
         <!-- Stadtteile -->
         <div 
           @click="toggleSectionDropdown" 
-          v-if="store.citySections.length > 0"
           data-menu="section"
           class="flex items-center py-2 px-4 text-gray-700 hover:bg-gray-200 rounded-md transition-colors cursor-pointer relative"
           :class="{'text-[#cc785c] bg-gray-100': sectionDropdownOpen}"
@@ -43,7 +42,6 @@
         <!-- Cafés -->
         <div 
           @click="toggleCafeDropdown" 
-          v-if="availableCafes.length > 0"
           data-menu="cafe"
           class="flex items-center py-2 px-4 text-gray-700 hover:bg-gray-200 rounded-md transition-colors cursor-pointer relative"
           :class="{'text-[#cc785c] bg-gray-100': cafeDropdownOpen}"
