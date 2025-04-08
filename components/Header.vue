@@ -1,10 +1,10 @@
 <template>
   <div>
     <!-- Header Bar -->
-    <div class="bg-[#FAF9F6] text-black border-b border-gray-300 py-0 relative h-[70px] flex items-center justify-between">
+    <div class="bg-black text-white border-b border-gray-700 py-0 relative h-[70px] flex items-center justify-between">
       <!-- Logo and Title - left -->
       <div class="flex items-center px-4">
-        <NuxtLink to="/" @click.prevent="navigateToHome" class="flex items-center text-gray-700 hover:text-black transition-colors">
+        <NuxtLink to="/" @click.prevent="navigateToHome" class="flex items-center text-white hover:text-gray-300 transition-colors">
           <img src="~/assets/logo.png" alt="Logo" class="h-8 w-8 mr-2" />
           <span class="ml-1 font-medium text-lg">CafeKompass</span>
         </NuxtLink>
@@ -16,8 +16,8 @@
         <div 
           @click="toggleCityDropdown" 
           data-menu="city"
-          class="flex items-center py-2 px-4 text-gray-700 hover:bg-gray-200 rounded-md transition-colors cursor-pointer relative"
-          :class="{'text-[#cc785c] bg-gray-100': cityDropdownOpen}"
+          class="flex items-center py-2 px-4 text-white hover:bg-gray-800 rounded-md transition-colors cursor-pointer relative"
+          :class="{'text-[#cc785c] bg-gray-800': cityDropdownOpen}"
         >
           <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
@@ -30,8 +30,8 @@
         <div 
           @click="toggleSectionDropdown" 
           data-menu="section"
-          class="flex items-center py-2 px-4 text-gray-700 hover:bg-gray-200 rounded-md transition-colors cursor-pointer relative"
-          :class="{'text-[#cc785c] bg-gray-100': sectionDropdownOpen}"
+          class="flex items-center py-2 px-4 text-white hover:bg-gray-800 rounded-md transition-colors cursor-pointer relative"
+          :class="{'text-[#cc785c] bg-gray-800': sectionDropdownOpen}"
         >
           <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
@@ -43,8 +43,8 @@
         <div 
           @click="toggleCafeDropdown" 
           data-menu="cafe"
-          class="flex items-center py-2 px-4 text-gray-700 hover:bg-gray-200 rounded-md transition-colors cursor-pointer relative"
-          :class="{'text-[#cc785c] bg-gray-100': cafeDropdownOpen}"
+          class="flex items-center py-2 px-4 text-white hover:bg-gray-800 rounded-md transition-colors cursor-pointer relative"
+          :class="{'text-[#cc785c] bg-gray-800': cafeDropdownOpen}"
         >
           <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
@@ -55,12 +55,12 @@
       
       <!-- Page Title for Kontakt/Impressum -->
       <div v-if="isKontaktPage || isImpressumPage" class="hidden md:block text-center">
-        <h1 class="text-lg font-medium">{{ isKontaktPage ? 'Kontakt' : 'Impressum' }}</h1>
+        <h1 class="text-lg font-medium text-white">{{ isKontaktPage ? 'Kontakt' : 'Impressum' }}</h1>
       </div>
       
       <!-- Mobile header title -->
       <div class="md:hidden text-center flex-1">
-        <h1 class="text-lg font-medium truncate">
+        <h1 class="text-lg font-medium text-white truncate">
           <span>{{ store.currentCity }}</span>
           <span v-if="store.currentSection" class="mx-1">
             &gt; {{ store.currentSection }}
@@ -73,13 +73,13 @@
       
       <!-- Impressum and Kontakt Links - right -->
       <div class="flex items-center px-4 space-x-2">
-        <NuxtLink to="/impressum" class="p-2 rounded-md text-gray-700 hover:bg-gray-200 transition-colors">
+        <NuxtLink to="/impressum" class="p-2 rounded-md text-white hover:bg-gray-800 transition-colors">
           <span class="hidden md:inline">Impressum</span>
           <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 md:hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
         </NuxtLink>
-        <NuxtLink to="/kontakt" class="p-2 rounded-md text-gray-700 hover:bg-gray-200 transition-colors">
+        <NuxtLink to="/kontakt" class="p-2 rounded-md text-white hover:bg-gray-800 transition-colors">
           <span class="hidden md:inline">Kontakt</span>
           <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 md:hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
@@ -89,7 +89,7 @@
     </div>
     
     <!-- Search bar section - only on main pages -->
-    <div v-if="!isKontaktPage && !isImpressumPage" class="hidden md:block bg-[#FAF9F6] shadow-sm border-b border-gray-300">
+    <div v-if="!isKontaktPage && !isImpressumPage" class="hidden md:block bg-black shadow-sm border-b border-gray-800">
       <div class="container mx-auto flex justify-center items-center py-2">
         <!-- Search field -->
         <div class="max-w-md w-full px-4">
