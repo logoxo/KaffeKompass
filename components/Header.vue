@@ -10,8 +10,8 @@
         </NuxtLink>
       </div>
       
-      <!-- Navigation Elemente in der Mitte (nur Desktop) -->
-      <div class="hidden md:flex items-center space-x-4 px-4">
+      <!-- Navigation Elemente in der Mitte (nur Desktop und nicht auf Kontakt/Impressum Seiten) -->
+      <div v-if="!isKontaktPage && !isImpressumPage" class="hidden md:flex items-center space-x-4 px-4">
         <!-- Städte -->
         <div 
           @click="toggleCityDropdown" 
@@ -53,6 +53,11 @@
         </div>
       </div>
       
+      <!-- Page Title for Kontakt/Impressum -->
+      <div v-if="isKontaktPage || isImpressumPage" class="hidden md:block text-center">
+        <h1 class="text-lg font-medium">{{ isKontaktPage ? 'Kontakt' : 'Impressum' }}</h1>
+      </div>
+      
       <!-- Mobile header title - shows current location -->
       <div class="md:hidden text-center flex-1">
         <h1 class="text-lg font-medium truncate">
@@ -83,8 +88,8 @@
       </div>
     </div>
     
-    <!-- Zoom-ähnliche Hauptnavigation - nur auf Desktop sichtbar -->
-    <div class="hidden md:block bg-[#FAF9F6] shadow-sm border-b border-gray-300">
+    <!-- Zoom-ähnliche Hauptnavigation - nur auf Desktop sichtbar und nicht auf Kontakt/Impressum Seiten -->
+    <div v-if="!isKontaktPage && !isImpressumPage" class="hidden md:block bg-[#FAF9F6] shadow-sm border-b border-gray-300">
       <div class="container mx-auto flex justify-center items-center py-2">
         <!-- Suchfeld in der Mitte (nur Desktop) -->
         <div class="max-w-md w-full px-4">
@@ -192,6 +197,10 @@
           </div>
         </div>
       </div>
+    </div>
+    
+    <!-- Einfache Trennlinie für Kontakt/Impressum Seiten -->
+    <div v-if="isKontaktPage || isImpressumPage" class="hidden md:block border-b border-gray-200"></div>
       
       <!-- Dropdown-Inhalte -->
       <div v-if="cityDropdownOpen || sectionDropdownOpen || cafeDropdownOpen" class="absolute z-10 bg-white border border-gray-300 rounded-md shadow-lg p-2 mt-1 left-1/2 transform -translate-x-1/2">
