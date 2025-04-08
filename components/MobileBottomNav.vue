@@ -1,8 +1,8 @@
 <template>
-    <div class="md:hidden fixed bottom-0 left-0 right-0 bg-white text-gray-700 border-t border-gray-300 shadow-lg">
+    <div class="md:hidden fixed bottom-0 left-0 right-0 bg-black text-white border-t border-gray-800 shadow-lg">
       <div class="grid grid-cols-4 h-16">
         <!-- Home-Button -->
-        <NuxtLink to="/" @click.prevent="navigateToHome" class="flex flex-col items-center justify-center hover:bg-gray-100">
+        <NuxtLink to="/" @click.prevent="navigateToHome" class="flex flex-col items-center justify-center hover:bg-gray-800">
           <div class="relative">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
@@ -17,7 +17,7 @@
         <button 
           @click="!isKontaktPage && !isImpressumPage ? toggleMobileMenu() : null" 
           class="flex flex-col items-center justify-center" 
-          :class="{'hover:bg-gray-100': !isKontaktPage && !isImpressumPage, 'opacity-50 cursor-not-allowed': isKontaktPage || isImpressumPage}"
+          :class="{'hover:bg-gray-800': !isKontaktPage && !isImpressumPage, 'opacity-50 cursor-not-allowed': isKontaktPage || isImpressumPage}"
         >
           <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" :class="{'text-gray-400': isKontaktPage || isImpressumPage}">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
@@ -29,7 +29,7 @@
         </button>
   
         <!-- Impressum Link -->
-        <NuxtLink to="/impressum" class="flex flex-col items-center justify-center hover:bg-gray-100">
+        <NuxtLink to="/impressum" class="flex flex-col items-center justify-center hover:bg-gray-800">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
@@ -37,7 +37,7 @@
         </NuxtLink>
   
         <!-- Kontakt Link -->
-        <NuxtLink to="/kontakt" class="flex flex-col items-center justify-center hover:bg-gray-100">
+        <NuxtLink to="/kontakt" class="flex flex-col items-center justify-center hover:bg-gray-800">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
           </svg>
@@ -48,16 +48,16 @@
       <!-- Mobile Menu Panel (slides from top) -->
       <div
         v-if="mobileMenuOpen"
-        class="fixed inset-0 z-50 bg-white flex flex-col"
+        class="fixed inset-0 z-50 bg-black flex flex-col"
         @click.self="closeMobileMenu"
       >
         <!-- Header with title and close button -->
-        <div class="flex items-center justify-between p-4 border-b border-gray-200 bg-[#FAF9F6]">
+        <div class="flex items-center justify-between p-4 border-b border-gray-800 bg-black text-white">
           <div class="flex items-center">
             <img src="~/assets/logo.png" alt="Logo" class="h-8 w-8 mr-2" />
-            <h1 class="text-lg font-medium text-gray-800">CafeKompass</h1>
+            <h1 class="text-lg font-medium text-white">CafeKompass</h1>
           </div>
-          <button @click="closeMobileMenu" class="text-gray-700 p-2 rounded-full hover:bg-gray-200">
+          <button @click="closeMobileMenu" class="text-white p-2 rounded-full hover:bg-gray-800">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
             </svg>
@@ -65,7 +65,7 @@
         </div>
   
         <!-- Search bar for mobile -->
-        <div class="p-4 bg-[#FAF9F6] border-b border-gray-200">
+        <div class="p-4 bg-gray-900 border-b border-gray-800">
           <div class="relative">
             <input 
               v-model="searchText"
@@ -174,26 +174,26 @@
         </div>
   
         <!-- Menu content -->
-        <div class="flex-1 overflow-y-auto px-4 py-2 bg-white">
+        <div class="flex-1 overflow-y-auto px-4 py-2 bg-gray-900 text-white">
           <div class="space-y-6">
             <!-- Stadt-Auswahl -->
             <div>
-              <h2 class="text-lg font-medium mb-3 text-gray-800 flex items-center">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <h2 class="text-lg font-medium mb-3 text-white flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                 </svg>
                 Stadt
               </h2>
-              <div class="bg-gray-50 rounded-lg">
+              <div class="bg-gray-800 rounded-lg">
                 <div
                   v-for="city in store.availableCities"
                   :key="city"
                   @click="selectCity(city)"
-                  class="py-3 px-4 rounded-md cursor-pointer transition-colors active:bg-gray-200 mb-1 relative border-l-4"
-                  :class="{ 'border-[#cc785c] bg-gray-100': city === store.currentCity, 'border-transparent': city !== store.currentCity }"
+                  class="py-3 px-4 rounded-md cursor-pointer transition-colors active:bg-gray-700 mb-1 relative border-l-4"
+                  :class="{ 'border-[#cc785c] bg-gray-700': city === store.currentCity, 'border-transparent': city !== store.currentCity }"
                 >
-                  <span class="text-gray-700 font-medium">{{ city }}</span>
+                  <span class="text-white font-medium">{{ city }}</span>
                   <div v-if="city === store.currentCity" class="absolute right-4 top-1/2 transform -translate-y-1/2">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-[#cc785c]" viewBox="0 0 20 20" fill="currentColor">
                       <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
@@ -205,13 +205,13 @@
   
             <!-- Stadtteile-Auswahl -->
             <div>
-              <h2 class="text-lg font-medium mb-3 text-gray-800 flex items-center">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <h2 class="text-lg font-medium mb-3 text-white flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3" />
                 </svg>
                 Stadtteil
               </h2>
-              <div class="bg-gray-50 rounded-lg">
+              <div class="bg-gray-800 rounded-lg">
                 <div
                   v-for="section in store.citySections"
                   :key="section"
@@ -226,7 +226,7 @@
                     </svg>
                   </div>
                 </div>
-                <div v-if="!store.citySections.length" class="py-3 px-4 text-gray-500 italic text-sm">
+                <div v-if="!store.citySections.length" class="py-3 px-4 text-gray-400 italic text-sm">
                   Keine Stadtteile verfügbar
                 </div>
               </div>
