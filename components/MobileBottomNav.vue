@@ -15,16 +15,16 @@
   
         <!-- Menu Button -->
         <button 
-          @click="!isKontaktPage && !isImpressumPage ? toggleMobileMenu() : null" 
+          @click="!isKontaktPage && !isImpressumPage && !isMenuPage ? toggleMobileMenu() : null" 
           class="flex flex-col items-center justify-center" 
-          :class="{'hover:bg-gray-800': !isKontaktPage && !isImpressumPage, 'opacity-50 cursor-not-allowed': isKontaktPage || isImpressumPage}"
+          :class="{'hover:bg-gray-800': !isKontaktPage && !isImpressumPage && !isMenuPage, 'opacity-50 cursor-not-allowed': isKontaktPage || isImpressumPage || isMenuPage}"
         >
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" :class="{'text-gray-400': isKontaktPage || isImpressumPage}">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" :class="{'text-gray-400': isKontaktPage || isImpressumPage || isMenuPage}">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
           </svg>
           <span class="text-xs mt-1 font-medium" :class="{
-            'text-[#cc785c]': mobileMenuOpen && !isKontaktPage && !isImpressumPage,
-            'text-gray-400': isKontaktPage || isImpressumPage
+            'text-[#cc785c]': mobileMenuOpen && !isKontaktPage && !isImpressumPage && !isMenuPage,
+            'text-gray-400': isKontaktPage || isImpressumPage || isMenuPage
           }">Menu</span>
         </button>
   

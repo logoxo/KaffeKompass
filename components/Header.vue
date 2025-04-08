@@ -10,8 +10,8 @@
         </NuxtLink>
       </div>
       
-      <!-- Navigation Elements in the middle (only desktop and not on Kontakt/Impressum pages) -->
-      <div v-if="!isKontaktPage && !isImpressumPage" class="hidden md:flex items-center space-x-4 px-4">
+      <!-- Navigation Elements in the middle (only desktop and not on Kontakt/Impressum/Menu pages) -->
+      <div v-if="!isKontaktPage && !isImpressumPage && !isMenuPage" class="hidden md:flex items-center space-x-4 px-4">
         <!-- City button -->
         <div 
           @click="toggleCityDropdown" 
@@ -53,9 +53,11 @@
         </div>
       </div>
       
-      <!-- Page Title for Kontakt/Impressum -->
-      <div v-if="isKontaktPage || isImpressumPage" class="hidden md:block text-center">
-        <h1 class="text-lg font-medium text-white">{{ isKontaktPage ? 'Kontakt' : 'Impressum' }}</h1>
+      <!-- Page Title for Kontakt/Impressum/Menu -->
+      <div v-if="isKontaktPage || isImpressumPage || isMenuPage" class="hidden md:block text-center">
+        <h1 class="text-lg font-medium text-white">
+          {{ isKontaktPage ? 'Kontakt' : isImpressumPage ? 'Impressum' : 'Menü' }}
+        </h1>
       </div>
       
       <!-- Mobile header title -->
@@ -88,8 +90,8 @@
       </div>
     </div>
     
-    <!-- Search bar section - only on main pages -->
-    <div v-if="!isKontaktPage && !isImpressumPage" class="hidden md:block bg-black shadow-sm border-b border-gray-800">
+    <!-- Search bar section - only on main pages (not on Kontakt/Impressum/Menu pages) -->
+    <div v-if="!isKontaktPage && !isImpressumPage && !isMenuPage" class="hidden md:block bg-black shadow-sm border-b border-gray-800">
       <div class="container mx-auto flex justify-center items-center py-2">
         <!-- Search field -->
         <div class="max-w-md w-full px-4">
