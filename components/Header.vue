@@ -1,8 +1,8 @@
 <template>
   <div>
-    <!-- Zoom-ähnliche Navigationsleiste -->
+    <!-- Header Bar -->
     <div class="bg-[#FAF9F6] text-black border-b border-gray-300 py-0 relative h-[70px] flex items-center justify-between">
-      <!-- Logo und Titel - links -->
+      <!-- Logo and Title - left -->
       <div class="flex items-center px-4">
         <NuxtLink to="/" @click.prevent="navigateToHome" class="flex items-center text-gray-700 hover:text-black transition-colors">
           <img src="~/assets/logo.png" alt="Logo" class="h-8 w-8 mr-2" />
@@ -10,9 +10,9 @@
         </NuxtLink>
       </div>
       
-      <!-- Navigation Elemente in der Mitte (nur Desktop und nicht auf Kontakt/Impressum Seiten) -->
+      <!-- Navigation Elements in the middle (only desktop and not on Kontakt/Impressum pages) -->
       <div v-if="!isKontaktPage && !isImpressumPage" class="hidden md:flex items-center space-x-4 px-4">
-        <!-- Städte -->
+        <!-- City button -->
         <div 
           @click="toggleCityDropdown" 
           data-menu="city"
@@ -26,7 +26,7 @@
           <span class="text-sm">{{ store.currentCity || 'Köln' }}</span>
         </div>
         
-        <!-- Stadtteile -->
+        <!-- District button -->
         <div 
           @click="toggleSectionDropdown" 
           data-menu="section"
@@ -39,7 +39,7 @@
           <span class="text-sm">{{ store.currentSection || 'Stadtteile' }}</span>
         </div>
         
-        <!-- Cafés -->
+        <!-- Cafés button -->
         <div 
           @click="toggleCafeDropdown" 
           data-menu="cafe"
@@ -58,7 +58,7 @@
         <h1 class="text-lg font-medium">{{ isKontaktPage ? 'Kontakt' : 'Impressum' }}</h1>
       </div>
       
-      <!-- Mobile header title - shows current location -->
+      <!-- Mobile header title -->
       <div class="md:hidden text-center flex-1">
         <h1 class="text-lg font-medium truncate">
           <span>{{ store.currentCity }}</span>
@@ -71,7 +71,7 @@
         </h1>
       </div>
       
-      <!-- Impressum und Kontakt Links - rechts -->
+      <!-- Impressum and Kontakt Links - right -->
       <div class="flex items-center px-4 space-x-2">
         <NuxtLink to="/impressum" class="p-2 rounded-md text-gray-700 hover:bg-gray-200 transition-colors">
           <span class="hidden md:inline">Impressum</span>
@@ -88,10 +88,10 @@
       </div>
     </div>
     
-    <!-- Zoom-ähnliche Hauptnavigation - nur auf Desktop sichtbar und nicht auf Kontakt/Impressum Seiten -->
+    <!-- Search bar section - only on main pages -->
     <div v-if="!isKontaktPage && !isImpressumPage" class="hidden md:block bg-[#FAF9F6] shadow-sm border-b border-gray-300">
       <div class="container mx-auto flex justify-center items-center py-2">
-        <!-- Suchfeld in der Mitte (nur Desktop) -->
+        <!-- Search field -->
         <div class="max-w-md w-full px-4">
           <div class="relative" data-menu="search">
             <input 
@@ -115,12 +115,12 @@
               <span class="bg-gray-200 px-1.5 py-0.5 rounded">⌘K</span>
             </div>
             
-            <!-- Suchergebnisse Dropdown -->
+            <!-- Search results dropdown -->
             <div v-if="searchFocused && hasSearchResults" 
                 data-content="search"
                 class="absolute top-full left-0 right-0 bg-white rounded-md border border-gray-300 shadow-lg mt-1 max-h-96 overflow-y-auto z-50">
               
-              <!-- Postleitzahlen -->
+              <!-- ZIP codes -->
               <div v-if="store.searchResults.zipCodes && store.searchResults.zipCodes.length > 0" class="p-2">
                 <div class="text-xs font-medium text-gray-500 uppercase mb-1 px-2">Postleitzahlen</div>
                 <div v-for="(item, index) in store.searchResults.zipCodes" 
@@ -138,7 +138,7 @@
                 </div>
               </div>
               
-              <!-- Städte -->
+              <!-- Cities -->
               <div v-if="store.searchResults.cities.length > 0" class="p-2" :class="{'border-t border-gray-200': store.searchResults.zipCodes && store.searchResults.zipCodes.length > 0}">
                 <div class="text-xs font-medium text-gray-500 uppercase mb-1 px-2">Städte</div>
                 <div v-for="(city, index) in store.searchResults.cities" 
@@ -154,7 +154,7 @@
                 </div>
               </div>
               
-              <!-- Stadtteile -->
+              <!-- Districts -->
               <div v-if="store.searchResults.sections.length > 0" class="p-2 border-t border-gray-200">
                 <div class="text-xs font-medium text-gray-500 uppercase mb-1 px-2">Stadtteile</div>
                 <div v-for="(section, index) in store.searchResults.sections" 
@@ -189,7 +189,7 @@
                 </div>
               </div>
               
-              <!-- Keine Ergebnisse -->
+              <!-- No results -->
               <div v-if="!hasSearchResults && searchText.length > 0" class="p-4 text-center text-gray-500">
                 Keine Ergebnisse gefunden für "{{ searchText }}"
               </div>
@@ -199,92 +199,89 @@
       </div>
     </div>
     
-    <!-- Einfache Trennlinie für Kontakt/Impressum Seiten -->
+    <!-- Simple divider for Kontakt/Impressum pages -->
     <div v-if="isKontaktPage || isImpressumPage" class="hidden md:block border-b border-gray-200"></div>
     
-    <!-- Dropdown-Inhalte -->
+    <!-- Dropdown contents -->
     <div v-if="cityDropdownOpen || sectionDropdownOpen || cafeDropdownOpen" class="absolute z-10 bg-white border border-gray-300 rounded-md shadow-lg p-2 mt-1 left-1/2 transform -translate-x-1/2">
-        <!-- Städte Dropdown -->
-        <div v-if="cityDropdownOpen" data-content="city" class="min-w-[250px] max-h-[300px] overflow-y-auto">
-          <div class="py-2 px-3 mb-1 font-medium text-gray-500 text-sm border-b">Wähle eine Stadt</div>
-          <div
-            v-for="city in store.availableCities"
-            :key="city"
-            @click="navigateToCity(city)"
-            class="py-2 px-3 hover:bg-gray-100 rounded cursor-pointer flex items-center"
-            :class="{'bg-gray-100': city === store.currentCity}"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+      <!-- Cities dropdown -->
+      <div v-if="cityDropdownOpen" data-content="city" class="min-w-[250px] max-h-[300px] overflow-y-auto">
+        <div class="py-2 px-3 mb-1 font-medium text-gray-500 text-sm border-b">Wähle eine Stadt</div>
+        <div
+          v-for="city in store.availableCities"
+          :key="city"
+          @click="navigateToCity(city)"
+          class="py-2 px-3 hover:bg-gray-100 rounded cursor-pointer flex items-center"
+          :class="{'bg-gray-100': city === store.currentCity}"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+          </svg>
+          <span class="text-black">{{ city }}</span>
+          <div v-if="city === store.currentCity" class="ml-auto">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-[#cc785c]" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
             </svg>
-            <span class="text-black">{{ city }}</span>
-            <div v-if="city === store.currentCity" class="ml-auto">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-[#cc785c]" viewBox="0 0 20 20" fill="currentColor">
-                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
-              </svg>
-            </div>
           </div>
         </div>
-        
-        <!-- Stadtteile Dropdown -->
-        <div v-if="sectionDropdownOpen" data-content="section" class="min-w-[250px] max-h-[300px] overflow-y-auto">
-          <div class="py-2 px-3 mb-1 font-medium text-gray-500 text-sm border-b">Wähle einen Stadtteil</div>
-          <div
-            v-for="section in store.citySections"
-            :key="section"
-            @click="navigateToSection(section)"
-            class="py-2 px-3 hover:bg-gray-100 rounded cursor-pointer flex items-center"
-            :class="{'bg-gray-100': section === store.currentSection}"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+      </div>
+      
+      <!-- Districts dropdown -->
+      <div v-if="sectionDropdownOpen" data-content="section" class="min-w-[250px] max-h-[300px] overflow-y-auto">
+        <div class="py-2 px-3 mb-1 font-medium text-gray-500 text-sm border-b">Wähle einen Stadtteil</div>
+        <div
+          v-for="section in store.citySections"
+          :key="section"
+          @click="navigateToSection(section)"
+          class="py-2 px-3 hover:bg-gray-100 rounded cursor-pointer flex items-center"
+          :class="{'bg-gray-100': section === store.currentSection}"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+          </svg>
+          <span class="text-black">{{ section }}</span>
+          <div v-if="section === store.currentSection" class="ml-auto">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-[#cc785c]" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
             </svg>
-            <span class="text-black">{{ section }}</span>
-            <div v-if="section === store.currentSection" class="ml-auto">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-[#cc785c]" viewBox="0 0 20 20" fill="currentColor">
-                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
-              </svg>
-            </div>
           </div>
         </div>
-        
-        <!-- Cafés Dropdown -->
-        <div v-if="cafeDropdownOpen" data-content="cafe" class="min-w-[250px] max-h-[300px] overflow-y-auto">
-          <div class="py-2 px-3 mb-1 font-medium text-gray-500 text-sm border-b">Wähle ein Café</div>
-          <div
-            v-for="cafe in availableCafes"
-            :key="cafe.id"
-            @click="selectCafe(cafe)"
-            class="py-2 px-3 hover:bg-gray-100 rounded cursor-pointer flex items-center"
-            :class="{'bg-gray-100': cafe.id === store.currentCafe?.id}"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+      </div>
+      
+      <!-- Cafés dropdown -->
+      <div v-if="cafeDropdownOpen" data-content="cafe" class="min-w-[250px] max-h-[300px] overflow-y-auto">
+        <div class="py-2 px-3 mb-1 font-medium text-gray-500 text-sm border-b">Wähle ein Café</div>
+        <div
+          v-for="cafe in availableCafes"
+          :key="cafe.id"
+          @click="selectCafe(cafe)"
+          class="py-2 px-3 hover:bg-gray-100 rounded cursor-pointer flex items-center"
+          :class="{'bg-gray-100': cafe.id === store.currentCafe?.id}"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+          </svg>
+          <span class="text-black">{{ cafe.shop_name }}</span>
+          <div v-if="cafe.id === store.currentCafe?.id" class="ml-auto">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-[#cc785c]" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
             </svg>
-            <span class="text-black">{{ cafe.shop_name }}</span>
-            <div v-if="cafe.id === store.currentCafe?.id" class="ml-auto">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-[#cc785c]" viewBox="0 0 20 20" fill="currentColor">
-                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
-              </svg>
-            </div>
           </div>
         </div>
       </div>
     </div>
     
-    <!-- Mobile Bottom Navigation Component -->
+    <!-- Mobile Bottom Navigation -->
     <MobileBottomNav 
       v-if="!isMenuPage && !isKontaktPage && !isImpressumPage" 
       :isMenuPage="isMenuPage"
     />
-    
-    <!-- Der leere Platzhalter wurde entfernt, da die Bottom Navigation bereits fixed positioniert ist -->
   </div>
 </template>
 
 <script setup>
-import { ref, computed, watch, onMounted } from 'vue';
+import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
 import { useRoute } from 'vue-router';
 import BreadcrumbItems from './BreadcrumbItems.vue';
 import MobileBottomNav from './MobileBottomNav.vue';
@@ -296,13 +293,13 @@ const cityDropdownOpen = ref(false);
 const cafeDropdownOpen = ref(false);
 const searchInput = ref(null);
 
-// Suchvariablen
+// Search variables
 const searchText = ref('');
 const searchFocused = ref(false);
 const selectedSearchIndex = ref(-1);
 const searchDebounceTimeout = ref(null);
 
-// Computed property für Suchergebnisse
+// Computed property for search results
 const hasSearchResults = computed(() => {
   return (store.searchResults.zipCodes && store.searchResults.zipCodes.length > 0) || 
          store.searchResults.cities.length > 0 || 
@@ -310,7 +307,7 @@ const hasSearchResults = computed(() => {
          store.searchResults.cafes.length > 0;
 });
 
-// Gesamtanzahl der Suchergebnisse
+// Total number of search results
 const totalSearchResults = computed(() => {
   return (store.searchResults.zipCodes?.length || 0) + 
          store.searchResults.cities.length + 
@@ -318,7 +315,7 @@ const totalSearchResults = computed(() => {
          store.searchResults.cafes.length;
 });
 
-// Debounced Suchfunktion
+// Debounced search function
 function handleSearch() {
   if (searchDebounceTimeout.value) {
     clearTimeout(searchDebounceTimeout.value);
@@ -326,29 +323,29 @@ function handleSearch() {
   
   searchDebounceTimeout.value = setTimeout(() => {
     store.search(searchText.value);
-    // Reset selected index wenn neue Suche
+    // Reset selected index when new search
     selectedSearchIndex.value = -1;
   }, 300);
 }
 
-// Funktionen für Tastaturnavigation
+// Functions for keyboard navigation
 function navigateSearchResults(direction) {
   if (!hasSearchResults.value) return;
   
   const maxIndex = totalSearchResults.value - 1;
   
   if (direction > 0) {
-    // Nach unten
+    // Down
     selectedSearchIndex.value = 
       selectedSearchIndex.value < maxIndex ? selectedSearchIndex.value + 1 : 0;
   } else {
-    // Nach oben
+    // Up
     selectedSearchIndex.value = 
       selectedSearchIndex.value > 0 ? selectedSearchIndex.value - 1 : maxIndex;
   }
 }
 
-// Hilfsfunktion um den Index im gesamten Suchergebnis zu bestimmen
+// Function to get index offset in search results
 function getResultIndexOffset(type, index) {
   if (type === 'zipCode') {
     return index;
@@ -365,7 +362,7 @@ function getResultIndexOffset(type, index) {
   return -1;
 }
 
-// Erste Suchergebnis auswählen (bei Enter)
+// Select first result (on Enter)
 function selectFirstResult() {
   if (!hasSearchResults.value) return;
   
@@ -380,15 +377,15 @@ function selectFirstResult() {
   }
 }
 
-// Wenn auf das Suchfeld geklickt wird, zurücksetzen
+// When search field is clicked, reset
 async function onSearchFocus() {
   searchFocused.value = true;
   searchText.value = '';
   store.search('');
   selectedSearchIndex.value = -1;
   
-  // Zurücksetzen der Produkte auf den Anfangszustand
-  // Nur Stadt beibehalten, aber Stadtteil und Café zurücksetzen
+  // Reset products to initial state
+  // Keep city, but reset district and café
   if (store.currentSection || store.currentCafe) {
     store.currentSection = null;
     store.currentCafe = null;
@@ -396,14 +393,14 @@ async function onSearchFocus() {
   }
 }
 
-// Ausgewähltes Suchergebnis verwenden
+// Use selected search result
 function selectSearchResult(type, value) {
   searchFocused.value = false; // Close dropdown
   searchText.value = ''; // Clear search
   store.navigateToSearchResult(type, value);
 }
 
-// Prüfen, ob wir uns auf bestimmten Seiten befinden
+// Check if we're on specific pages
 const isMenuPage = computed(() => {
   return route.path.startsWith('/menu/');
 });
@@ -416,17 +413,17 @@ const isImpressumPage = computed(() => {
   return route.path === '/impressum';
 });
 
-// Computed Property für verfügbare Städte
+// Computed property for available cities
 const hasCities = computed(() => {
   return store.availableCities && store.availableCities.length > 1;
 });
 
-// Computed Property für verfügbare Cafés basierend auf aktuellen Filtern
+// Computed property for available cafés based on current filters
 const availableCafes = computed(() => {
   return store.posts.filter(post => post.kind === 'Product');
 });
 
-// Navigation-Funktionen delegieren zum Store
+// Navigation functions delegated to store
 const navigateToHome = async () => {
   await store.navigateToHome();
 };
@@ -464,7 +461,7 @@ const toggleCityDropdown = () => {
     if (sectionDropdownOpen.value) sectionDropdownOpen.value = false;
     if (cafeDropdownOpen.value) cafeDropdownOpen.value = false;
   } else {
-    // Wenn nur eine Stadt verfügbar ist, lade trotzdem Daten neu
+    // If only one city is available, still reload data
     navigateToCity(store.currentCity);
   }
 };
@@ -523,13 +520,13 @@ const handleClickOutside = (event) => {
   }
 };
 
-// Shortcut CMD+K / CTRL+K für Suchfokus
+// CMD+K / CTRL+K shortcut for search focus
 const handleKeyboardShortcut = (event) => {
-  // CMD+K (Mac) oder CTRL+K (Windows/Linux)
+  // CMD+K (Mac) or CTRL+K (Windows/Linux)
   if ((event.metaKey || event.ctrlKey) && event.key === 'k') {
-    event.preventDefault(); // Standardverhalten verhindern
+    event.preventDefault(); // Prevent default behavior
     
-    // Fokus auf Suchfeld setzen, wenn es verfügbar ist
+    // Focus on search field if available
     if (searchInput.value) {
       searchInput.value.focus();
     }
@@ -540,7 +537,7 @@ onMounted(async () => {
   document.addEventListener('click', handleClickOutside);
   document.addEventListener('keydown', handleKeyboardShortcut);
   
-  // Initialisiere Navigation mit dynamischen Daten
+  // Initialize navigation with dynamic data
   await store.initNavigation();
 });
 
