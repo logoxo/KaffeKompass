@@ -201,9 +201,9 @@
     
     <!-- Einfache Trennlinie für Kontakt/Impressum Seiten -->
     <div v-if="isKontaktPage || isImpressumPage" class="hidden md:block border-b border-gray-200"></div>
-      
-      <!-- Dropdown-Inhalte -->
-      <div v-if="cityDropdownOpen || sectionDropdownOpen || cafeDropdownOpen" class="absolute z-10 bg-white border border-gray-300 rounded-md shadow-lg p-2 mt-1 left-1/2 transform -translate-x-1/2">
+    
+    <!-- Dropdown-Inhalte -->
+    <div v-if="cityDropdownOpen || sectionDropdownOpen || cafeDropdownOpen" class="absolute z-10 bg-white border border-gray-300 rounded-md shadow-lg p-2 mt-1 left-1/2 transform -translate-x-1/2">
         <!-- Städte Dropdown -->
         <div v-if="cityDropdownOpen" data-content="city" class="min-w-[250px] max-h-[300px] overflow-y-auto">
           <div class="py-2 px-3 mb-1 font-medium text-gray-500 text-sm border-b">Wähle eine Stadt</div>
