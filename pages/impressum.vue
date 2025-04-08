@@ -1,7 +1,7 @@
 <template>
     <div class="flex flex-col min-h-screen">
       <!-- Header mit Titel -->
-      <div class="bg-black py-16 text-center">
+      <div class="py-16 text-center" style="background-color: #272121;">
         <h1 class="text-white text-5xl font-light">Impressum</h1>
       </div>
   
