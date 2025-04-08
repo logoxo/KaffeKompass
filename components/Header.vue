@@ -274,8 +274,9 @@
     
     <!-- Mobile Bottom Navigation -->
     <MobileBottomNav 
-      v-if="!isMenuPage && !isKontaktPage && !isImpressumPage" 
       :isMenuPage="isMenuPage"
+      :isKontaktPage="isKontaktPage"
+      :isImpressumPage="isImpressumPage"
     />
   </div>
 </template>
