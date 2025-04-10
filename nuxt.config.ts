@@ -5,21 +5,21 @@ export default defineNuxtConfig({
   devServer: {
     host: '0.0.0.0', // Erlaubt den Zugriff von externen Quellen
     port: 3000, // Falls dein Nuxt-Server auf Port 3000 läuft
-    allowedHosts: ["all"] // Erlaubt alle Hosts, einschließlich Ngrok
+    //allowedHosts: ["all"] // Erlaubt alle Hosts, einschließlich Ngrok
   },
   css: [
     // SCSS file in the project
     "~/assets/scss/main.scss", // you should add main.scss somewhere in your app
   ],
   strapi: {
-    url: 'http://207.180.235.105:8000' , // Replace with your Strapi URL
+    url: 'http://localhost:1337', // Replace with your Strapi URL
     prefix: '/api',
   },
   runtimeConfig: {
     // Keys within public are also exposed client-side
     public: {
       strapi: {
-        url: process.env.STRAPI_URL || 'http://207.180.235.105:8000',
+        url: process.env.STRAPI_URL || 'http://localhost:1337',
         // ... other existing Strapi config
       },
       siteUrl: process.env.SITE_URL || 'https://cafefinder.de',

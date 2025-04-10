@@ -1,5 +1,5 @@
 <template>
-    <div class="md:hidden fixed bottom-0 left-0 right-0 bg-black text-white border-t border-gray-800 shadow-lg">
+    <div class="md:hidden fixed bottom-0 left-0 right-0 bg-black text-white border-t border-gray-700 shadow-lg">
       <div class="grid grid-cols-4 h-16">
         <!-- Home-Button -->
         <NuxtLink to="/" @click.prevent="navigateToHome" class="flex flex-col items-center justify-center hover:bg-gray-800">
@@ -52,7 +52,7 @@
         @click.self="closeMobileMenu"
       >
         <!-- Header with title and close button -->
-        <div class="flex items-center justify-between p-4 border-b border-gray-800 bg-black text-white">
+        <div class="flex items-center justify-between p-4 border-b border-gray-700 bg-black text-white">
           <div class="flex items-center">
             <img src="~/assets/logo.png" alt="Logo" class="h-8 w-8 mr-2" />
             <h1 class="text-lg font-medium text-white">CafeKompass</h1>
@@ -65,7 +65,7 @@
         </div>
   
         <!-- Search bar for mobile -->
-        <div class="p-4 bg-gray-900 border-b border-gray-800">
+        <div class="p-4 bg-gray-900 border-b border-gray-700">
           <div class="relative">
             <input 
               v-model="searchText"
