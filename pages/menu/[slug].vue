@@ -9,6 +9,7 @@ const menuStore = useMenuStore();
 
 // Lokale reaktive Zustände
 const localLoading = ref(true);
+const isImagesLoaded = ref(false);
 
 // SEO setup
 const { $setSeo, $generateSeoTags } = useNuxtApp();
@@ -137,7 +138,7 @@ watch(cafeData, (newData) => {
     <div class="bg-[#FAF9F6] flex-grow p-6 md:p-12 rounded-t-3xl -mt-4">
       <!-- Loading -->
       <div v-if="localLoading || menuStore.loading" class="flex justify-center items-center h-32">
-        <p class="text-gray-600">Menü wird geladen...</p>
+        <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-[#cc785c]"></div>
       </div>
       
       <!-- Menü oder Fehler anzeigen -->

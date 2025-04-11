@@ -11,6 +11,7 @@ const store = useStore();
 // Komponenten-State
 const activeTab = ref('info'); // 'info', 'hours', 'services'
 const isImageExpanded = ref(false);
+const isImageLoaded = ref(false);
 
 // Prepare images for the slider
 const shopImages = computed(() => {
@@ -103,6 +104,11 @@ const closeDetail = (event) => {
   }
 }
 
+// Handle image loading state
+const handleImageLoaded = () => {
+  isImageLoaded.value = true;
+};
+
 // Set SEO data for the product detail view
 const setSeoForCafe = () => {
   if (!props.obj) return;
@@ -145,6 +151,7 @@ const setSeoForCafe = () => {
 watch(() => props.obj, (newObj) => {
   if (newObj) {
     setSeoForCafe();
+    isImageLoaded.value = false; // Reset image loaded state when object changes
   }
 }, { immediate: true });
 </script>
@@ -193,6 +200,11 @@ watch(() => props.obj, (newObj) => {
           isImageExpanded ? 'h-[60vh]' : 'h-52'
         ]"
       >
+        <!-- Loading spinner -->
+        <div v-if="!isImageLoaded" class="absolute inset-0 flex items-center justify-center bg-gray-100">
+          <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-[#cc785c]"></div>
+        </div>
+        
         <button 
           @click="toggleImageExpanded" 
           class="absolute bottom-2 right-2 z-10 bg-black bg-opacity-60 rounded-full p-2"
@@ -211,6 +223,7 @@ watch(() => props.obj, (newObj) => {
           :alt="obj.shop_name" 
           :autoplay="true"
           :interval="4000"
+          @image-loaded="handleImageLoaded"
         />
       </div>
       
@@ -366,12 +379,18 @@ watch(() => props.obj, (newObj) => {
     <div class="hidden md:flex md:flex-row box-border">
       <!-- Image Slider Box mit Toggle-Button -->
       <div class="box-border md:w-1/3 p-4 relative">
+        <!-- Loading spinner -->
+        <div v-if="!isImageLoaded" class="absolute inset-0 flex items-center justify-center bg-gray-100 z-10">
+          <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-[#cc785c]"></div>
+        </div>
+        
         <div class="box-content h-64 md:h-full">
           <ImageSlider 
             :images="shopImages" 
             :alt="obj.shop_name" 
             :autoplay="true"
             :interval="4000"
+            @image-loaded="handleImageLoaded"
           />
           
           <!-- Toggle-Button für Bildgröße (optional für Desktop) -->
