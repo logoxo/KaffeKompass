@@ -30,39 +30,102 @@ const getMapUrl = () => {
   return `https://maps.google.com/?q=${encodeURIComponent(address)}`;
 }
 
-// Share location function
-const shareLocation = () => {
+// Get share image
+const getShareImage = () => {
+  if (!props.obj.shop_img || !props.obj.shop_img.length) return null;
+  return $imgUrl(props.obj.shop_img[0].url);
+};
+
+// Share modal state
+const isShareModalOpen = ref(false);
+const availablePlatforms = ref([
+  { id: 'twitter', name: 'Twitter', icon: 'M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z' },
+  { id: 'facebook', name: 'Facebook', icon: 'M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z' },
+  { id: 'instagram', name: 'Instagram', icon: 'M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z' },
+  { id: 'whatsapp', name: 'WhatsApp', icon: 'M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z' },
+  { id: 'email', name: 'E-Mail', icon: 'M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z' }
+]);
+
+// Toggle share modal
+const toggleShareModal = () => {
+  isShareModalOpen.value = !isShareModalOpen.value;
+};
+
+// Close share modal when clicked outside
+const closeShareModalOnOutsideClick = (event) => {
+  const modal = document.getElementById('share-modal');
+  if (modal && !modal.contains(event.target) && isShareModalOpen.value) {
+    isShareModalOpen.value = false;
+  }
+};
+
+// Set up click outside listener
+onMounted(() => {
+  if (process.client) {
+    document.addEventListener('click', closeShareModalOnOutsideClick);
+  }
+});
+
+onBeforeUnmount(() => {
+  if (process.client) {
+    document.removeEventListener('click', closeShareModalOnOutsideClick);
+  }
+});
+
+// Share on specific platform
+const shareToPlatform = (platform) => {
   if (!props.obj) return;
   
   const title = props.obj.shop_name || 'Café';
   const text = `Besuche ${title} in ${props.obj.address?.city || ''}!`;
   const url = window.location.href;
+  const image = getShareImage();
   
-  // Check if Web Share API is available
-  if (navigator.share) {
-    navigator.share({
-      title: title,
-      text: text,
-      url: url
-    }).catch(error => {
-      console.error('Error sharing:', error);
-    });
-  } else {
-    // Fallback: Copy to clipboard
-    const tempTextarea = document.createElement('textarea');
-    tempTextarea.value = `${text} ${url}`;
-    document.body.appendChild(tempTextarea);
-    tempTextarea.select();
-    
-    try {
-      document.execCommand('copy');
-      alert('Link in die Zwischenablage kopiert!');
-    } catch (err) {
-      console.error('Could not copy text:', err);
-    }
-    
-    document.body.removeChild(tempTextarea);
+  switch (platform) {
+    case 'twitter':
+      window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`, '_blank');
+      break;
+    case 'facebook':
+      window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`, '_blank');
+      break;
+    case 'whatsapp':
+      window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text + ' ' + url)}`, '_blank');
+      break;
+    case 'email':
+      window.open(`mailto:?subject=${encodeURIComponent(title)}&body=${encodeURIComponent(text + '\n\n' + url)}`, '_blank');
+      break;
+    default:
+      // Use Web Share API if available
+      if (navigator.share) {
+        const shareData = {
+          title: title,
+          text: text,
+          url: url
+        };
+        
+        navigator.share(shareData).catch(error => {
+          console.error('Error sharing:', error);
+        });
+      } else {
+        // Fallback: Copy to clipboard
+        const tempTextarea = document.createElement('textarea');
+        tempTextarea.value = `${text} ${url}`;
+        document.body.appendChild(tempTextarea);
+        tempTextarea.select();
+        
+        try {
+          document.execCommand('copy');
+          alert('Link in die Zwischenablage kopiert!');
+        } catch (err) {
+          console.error('Could not copy text:', err);
+        }
+        
+        document.body.removeChild(tempTextarea);
+      }
   }
+  
+  // Close modal after sharing
+  isShareModalOpen.value = false;
 }
 
 // Set active tab - nur für mobile
@@ -182,7 +245,7 @@ watch(() => props.obj, (newObj) => {
             <p class="text-gray-300 text-sm">{{ obj.address?.city_section }}</p>
           </div>
           <button 
-            @click="shareLocation" 
+            @click="toggleShareModal" 
             class="p-2 rounded-full hover:bg-white transition-colors"
             aria-label="Teilen"
           >
@@ -190,6 +253,28 @@ watch(() => props.obj, (newObj) => {
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
             </svg>
           </button>
+          
+          <!-- Share Modal -->
+          <div 
+            v-if="isShareModalOpen" 
+            id="share-modal"
+            class="absolute top-12 right-0 z-20 bg-white rounded-lg shadow-lg p-3 w-64 border border-gray-200"
+          >
+            <h3 class="text-sm font-bold mb-2 text-gray-700">Teilen auf:</h3>
+            <div class="grid grid-cols-3 gap-2">
+              <button 
+                v-for="platform in availablePlatforms" 
+                :key="platform.id"
+                @click="shareToPlatform(platform.id)"
+                class="flex flex-col items-center justify-center p-2 rounded-lg hover:bg-gray-100 transition-colors"
+              >
+                <svg class="h-6 w-6 mb-1" viewBox="0 0 24 24" fill="currentColor">
+                  <path :d="platform.icon" />
+                </svg>
+                <span class="text-xs">{{ platform.name }}</span>
+              </button>
+            </div>
+          </div>
         </div>
       </div>
       
@@ -421,7 +506,7 @@ watch(() => props.obj, (newObj) => {
               <div class="box-border flex justify-between items-center mb-2">
                 <h1 class="box-border text-2xl font-bold">{{ obj.shop_name }}</h1>
                 <button 
-                  @click="shareLocation" 
+                  @click="toggleShareModal" 
                   class="box-border p-2 rounded-full hover:bg-white transition-colors"
                   aria-label="Teilen"
                 >
@@ -429,6 +514,28 @@ watch(() => props.obj, (newObj) => {
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
                   </svg>
                 </button>
+                
+                <!-- Desktop Share Modal -->
+                <div 
+                  v-if="isShareModalOpen" 
+                  id="share-modal"
+                  class="absolute top-12 right-0 z-20 bg-white rounded-lg shadow-lg p-3 w-64 border border-gray-200"
+                >
+                  <h3 class="text-sm font-bold mb-2 text-gray-700">Teilen auf:</h3>
+                  <div class="grid grid-cols-3 gap-2">
+                    <button 
+                      v-for="platform in availablePlatforms" 
+                      :key="platform.id"
+                      @click="shareToPlatform(platform.id)"
+                      class="flex flex-col items-center justify-center p-2 rounded-lg hover:bg-gray-100 transition-colors text-gray-700"
+                    >
+                      <svg class="h-6 w-6 mb-1" viewBox="0 0 24 24" fill="currentColor">
+                        <path :d="platform.icon" />
+                      </svg>
+                      <span class="text-xs">{{ platform.name }}</span>
+                    </button>
+                  </div>
+                </div>
               </div>
               <p class="box-border mb-1">{{ obj.address?.street }}</p>
               <p class="box-border mb-1">{{ obj.address?.zipcode }} {{ obj.address?.city }}</p>
