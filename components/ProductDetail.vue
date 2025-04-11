@@ -207,7 +207,7 @@ watch(() => props.obj, (newObj) => {
         
         <button 
           @click="toggleImageExpanded" 
-          class="absolute bottom-2 right-2 z-10 bg-black bg-opacity-60 rounded-full p-2"
+          class="absolute bottom-2 right-2 z-10 bg-white bg-opacity-70 rounded-full p-2"
           aria-label="Bild vergrößern/verkleinern"
         >
           <svg v-if="!isImageExpanded" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -396,7 +396,7 @@ watch(() => props.obj, (newObj) => {
           <!-- Toggle-Button für Bildgröße (optional für Desktop) -->
           <button 
             @click="toggleImageExpanded" 
-            class="absolute bottom-6 right-6 z-10 bg-black bg-opacity-60 rounded-full p-2 hover:bg-opacity-80 transition-colors"
+            class="absolute bottom-6 right-6 z-10 bg-white bg-opacity-70 rounded-full p-2 hover:bg-opacity-90 transition-colors"
             aria-label="Bild vergrößern/verkleinern"
           >
             <svg v-if="!isImageExpanded" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
